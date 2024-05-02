@@ -1,87 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+$mysqli = new mysqli("localhost", "root", "", "sistema");
+?>
+<?php
+include ('../php/conexion.php');
+session_start();
+if(!isset($_SESSION['datos_login'])){
+  header("Location: ../index.php");
+}
+$arregloUsuario = $_SESSION['datos_login'];
 
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Sistemas</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="admin/css/sb-admin-2.min.css" rel="stylesheet">
-
-</head>
-
-<body class="bg-gradient-primary">
-
-    <div class="container">
-
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block"><img src="admin/img/undraw_profile.svg" alt=""></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Bienvenido</h1>
-                                    </div>
-                                    <form class="user" action="php/check.php" method="post">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                name="nombre" aria-describedby="emailHelp"
-                                                placeholder="Ingrese nombre de usuario o email..." required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                name="clave" placeholder="Ingrese clave..." required>
-                                        </div>
-                                     
-                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Iniciar">
-                                        
-                                 
-                                       
-                                    </form>
-                                    <hr>
-                               
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
+?>
+<?php require_once "vistas/vista_superior.php"?>
+<!-- Inicio de contenido principal-->
+<div class="container-fluid text-center">
+<h1>VENTANA PRINCIPAL</h1>
+    <!-- #cards -->
+    <div class="card-deck">
+  <div class="card p-4 bg-primary">
+    <img class="card-img-top" src="images/ClientesRegistrados.svg" height="50%" alt="Card image cap">
+    <div class="card-body">
+      <h1 class="card-title text-center text-white"><?php
+$sql = "SELECT COUNT(*) total FROM clientes";
+$result = mysqli_query($mysqli, $sql);
+$fila = mysqli_fetch_assoc($result);
+echo '' . $fila['total'];
+?></h1>
+      <p class="card-text text-center text-white">Clientes Registrados.</p>
     </div>
+  </div>
+  <div class="card p-4 bg-warning">
+    <img class="card-img-top" src="images/ClientesMatriculados.svg" height="50%" alt="Card image cap">
+    <div class="card-body">
+      <h1 class="card-title text-center text-white"><?php
+$sql = "SELECT COUNT(*) total FROM clientes";
+$result = mysqli_query($mysqli, $sql);
+$fila = mysqli_fetch_assoc($result);
+echo '' . $fila['total'];
+?></h1>
+      <p class="card-title text-center text-white">Clientes Matriculados</p>
+    </div>
+  </div>
+  <div class="card p-4 bg-success">
+    <img class="card-img-top" src="images/AsistenciaMiembros.svg" height="50%" alt="Card image cap">
+    <div class="card-body">
+      <h1 class="card-title text-center text-white"><?php
+$sql = "SELECT COUNT(*) total FROM control_asistencias";
+$result = mysqli_query($mysqli, $sql);
+$fila = mysqli_fetch_assoc($result);
+echo '' . $fila['total'];
+?></h1>
+      <p class="card-text text-center text-white">Total de Asistencias miembros.</p>
+    </div>
+  </div>
+    <div class="card p-4 bg-danger">
+    <img class="card-img-top" src="images/AsistenciaLibres.svg" height="50%" alt="Card image cap">
+    <div class="card-body">
+      <h1 class="card-title text-center text-white"><?php
+$sql = "SELECT COUNT(*) total FROM libre";
+$result = mysqli_query($mysqli, $sql);
+$fila = mysqli_fetch_assoc($result);
+echo '' . $fila['total'];
+?></h1>
+      <p class="card-text text-center text-white">Total de Asistencias libres</p>
+      
+    </div>
+  </div>
+</div>
+<br>
+<div id="relojnumerico" class="reloj container-fluid" onload="cargarReloj()"></div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="admin/vendor/jquery/jquery.min.js"></script>
-    <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="admin/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="admin/js/sb-admin-2.min.js"></script>
-
-</body>
-
-</html>
+</div>
+<!-- Fin de contenido principal-->
+<?php require_once "vistas/vista_inferior.php"?>
